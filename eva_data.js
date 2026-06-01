@@ -1,4 +1,3 @@
-// 精英垂直弹跳学院 (EVA) 完整训练计划数据库 (含动作演示视频)
 const EVA_DATABASE = [
   {
     "name": "第一阶段: 激活阶段 (Activation Phase)",
@@ -2008,7 +2007,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Alternating Pogo Jumps - 2 x 10 seconds (Light Weight)",
@@ -2107,7 +2106,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 seconds (Light Weight)",
@@ -2200,7 +2199,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Linear Pogos - 2 x 10 yards each side (Light Weight)",
@@ -2299,7 +2298,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 (Light Weight)",
@@ -2397,7 +2396,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Alternating Pogo Jumps - 2 x 10 seconds (Increase Weight - 2-5 lbs)",
@@ -2496,7 +2495,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 seconds (Increase Weight - 2-5 lbs)",
@@ -2589,7 +2588,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Linear Pogos - 2 x 10 yards each side (increase Weight - 2-5 lbs)",
@@ -2688,7 +2687,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 (Increase Weight - 2-5 lbs)",
@@ -2786,7 +2785,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Alternating Pogo Jumps - 2 x 10 seconds (Increase Weight - 2-5 lbs)",
@@ -2885,7 +2884,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 seconds (Increase Weight - 2-5 lbs)",
@@ -2978,7 +2977,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Linear Pogos - 2 x 10 yards each side (increase Weight - 2-5 lbs)",
@@ -3077,7 +3076,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. DB Stationary Pogos - 2 x 10 (Increase Weight - 2-5 lbs)",
@@ -3175,7 +3174,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Alternating Pogo Jumps - 2 x 10 seconds",
@@ -3268,7 +3267,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogos - 2 x 10 seconds",
@@ -3355,7 +3354,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Pogos - 2 x 10 yards each side",
@@ -3442,7 +3441,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogos - 2 x 10 seconds",
@@ -3534,7 +3533,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Alternating Pogo Jumps - 4 x 10",
@@ -3627,7 +3626,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pulsing Pogos - 4 x 10",
@@ -3720,7 +3719,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Single Leg Pogos - 2 x 10 each side",
@@ -3813,7 +3812,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pogos - 4 x 10",
@@ -3911,7 +3910,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Alternating Pogo Jumps - 4 x 10",
@@ -4004,7 +4003,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pulsing Pogos - 4 x 10",
@@ -4097,7 +4096,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Single Leg Pogos - 2 x 10 each side",
@@ -4190,7 +4189,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pogos - 4 x 10",
@@ -4288,7 +4287,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Alternating Pogo Jumps - 4 x 10",
@@ -4381,7 +4380,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pulsing Pogos - 4 x 10",
@@ -4474,7 +4473,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Single Leg Pogos - 2 x 10 each side",
@@ -4567,7 +4566,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pogos - 4 x 10",
@@ -4665,7 +4664,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Alternating Pogo Jumps - 4 x 10",
@@ -4758,7 +4757,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pulsing Pogos - 4 x 10",
@@ -4851,7 +4850,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Single Leg Pogos - 2 x 10 each side",
@@ -4944,7 +4943,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Band Assisted Stationary Pogos - 4 x 10",
@@ -5048,7 +5047,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogo Jumps - 1 x 10",
@@ -5147,7 +5146,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogos - 1 x 10",
@@ -5240,7 +5239,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Alternating Pogos - 2 x 10 yards",
@@ -5333,7 +5332,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Pogos - 2 x 10 yards",
@@ -5425,7 +5424,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogo Jumps - 1 x 10",
@@ -5524,7 +5523,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogos - 1 x 10",
@@ -5617,7 +5616,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Alternating Pogos - 2 x 10 yards",
@@ -5710,7 +5709,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Pogos - 2 x 10 yards",
@@ -5802,7 +5801,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogo Jumps - 1 x 10",
@@ -5901,7 +5900,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Stationary Pogos - 1 x 10",
@@ -5994,7 +5993,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Alternating Pogos - 2 x 10 yards",
@@ -6087,7 +6086,7 @@ const EVA_DATABASE = [
             "type": "爆发力 + 力量训练",
             "sections": [
               {
-                "name": "Dynamic Warm Up",
+                "name": "Power",
                 "items": [
                   {
                     "text": "1. Linear Pogos - 2 x 10 yards",
@@ -6173,8 +6172,3 @@ const EVA_DATABASE = [
     ]
   }
 ];
-
-// 导出数据
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EVA_DATABASE;
-}

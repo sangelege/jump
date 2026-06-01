@@ -385,12 +385,42 @@ function getExerciseCoachingDetails(exName) {
         matchedTip = "💆 **肩胛壁滑 (Wall Slides)**：靠墙贴实，腰椎扁平不要起拱，双手臂呈 W 状紧贴墙壁慢慢向上滑动至 Y 状。这是顶级的肩胛稳定性矫正动作，防止上肢在卧推/硬拉受力时滑脱代偿。";
     } else if (nameLower.includes("groiner")) {
         matchedTip = "🦎 **深蹲侧步开胯 (Groiners)**：双手撑地呈平板支撑，单脚向前跨至同侧手外侧，尽量下沉髋部拉伸腹股沟，结合胸椎旋转更佳。这能极大释放髋屈肌粘连，为深蹲和起跳释放髋关节活动度。";
+    } else if (nameLower.includes("tibialis stretch") || nameLower.includes("胫骨前肌拉伸")) {
+        matchedTip = "🦵 **胫骨前肌拉伸 (Tibialis Stretch)**：将脚背垫高，双腿跪姿向后坐落于脚跟，双手在侧后方支撑微抬膝盖，感受胫骨前肌和小腿前侧的深度拉伸。这对于经常高冲击起跳产生的小腿前侧胫骨前痛（胫骨应力综合征）和踝关节屈度受限有顶级康复效果。";
+    } else if (nameLower.includes("dorsiflexion stretch") || nameLower.includes("背屈踝关节拉伸")) {
+        matchedTip = "🦶 **踝关节背屈拉伸 (Ankle Dorsiflexion Stretch)**：单腿半跪姿下，前侧膝盖尽量向前顶出并大幅超过脚尖，脚后跟踩实绝不离地，可用双肘及上半身重量垂直向下压在膝盖上。主攻释放足底筋膜与跟腱背屈度，彻底预防由于足踝过硬导致的膝盖髌骨代偿。";
+    } else if (nameLower.includes("couch stretch") || nameLower.includes("沙发拉伸")) {
+        matchedTip = "🛋️ **沙发拉伸 (Couch Stretch)**：后腿弯曲贴墙，膝盖着地垫软垫，前腿呈弓步。用力收紧受拉侧臀部与核心以锁定骨盆，上身尽量直立并微微后展。这是顶级的股四头肌与髋屈肌（髂腰肌）深层释放动作，彻底解放被肌肉缩短封印的伸髋推进能量。";
+    } else if (nameLower.includes("half split") || nameLower.includes("半劈叉")) {
+        matchedTip = "🧘 **半劈叉拉伸 (Half Split)**：单膝跪地，前腿向前伸直，脚尖勾起，保持下背部平直不弓背，躯干平直前倾。深度拉伸大腿后侧腘绳肌和小腿后侧，提升双下肢的直腿屈髋（后链阻抗）灵活性。";
+    } else if (nameLower.includes("pigeon stretch") || nameLower.includes("鸽子式拉伸")) {
+        matchedTip = "🐦 **鸽子式拉伸 (Pigeon Stretch)**：前腿折叠呈 90 度平贴于地面，后腿向后完全伸直，重心居中，上身贴向地面。深度拉伸臀中肌、梨状肌和髋外旋肌群，解决下背部发紧和臀部力传导不畅。";
+    } else if (nameLower.includes("frog stretch") || nameLower.includes("蛙式拉伸")) {
+        matchedTip = "🐸 **蛙式拉伸 (Frog Stretch)**：双膝跪地，膝盖尽量向两侧外开至极限，小腿与大腿呈 90 度，脚内侧踩实贴地，双手撑地臀部平直向后下沉。深度释放内收肌群（大腿内侧）张力，为大范围深蹲起跳提供健康的胯部活动空间。";
+    } else if (nameLower.includes("rollover reach") || nameLower.includes("滚地前伸")) {
+        matchedTip = "🌀 **滚地前伸 (Rollover Reach)**：仰卧将双腿向后滚过头顶，用脚尖轻轻贴地，再向前翻滚至坐姿分腿，将双手向前推伸。动态唤醒全脊柱活动度与整个后链（背部、臀部、腘绳肌）张力。";
+    } else if (nameLower.includes("groin stretch") || nameLower.includes("腹股沟拉伸")) {
+        matchedTip = "🦎 **半跪姿腹股沟拉伸 (Groin Stretch)**：半跪姿下，受力腿向侧面平移外展，重心向受力侧动态移动以拉伸大腿内侧。动态激活侧向移动的髋关节活动空间，建立稳固的多向力传导。";
+    } else if (nameLower.includes("rotations") || nameLower.includes("内旋/外旋")) {
+        matchedTip = "🔄 **髋关节内外旋 (Hip Rotations)**：坐姿双腿弯曲呈 90-90 度（雨刷器坐姿），交替将双膝贴向两侧地面进行内外侧旋转。极佳的髋关节深层关节囊解锁动作，润滑关节，拒绝起跳髋部漏力阻碍。";
+    } else if (nameLower.includes("whip") || nameLower.includes("鞭摆")) {
+        matchedTip = "🦂 **单腿臀桥带鞭摆 (Glute Bridge Whip)**：单腿臀桥支撑在顶部保持，另一侧悬空脚伸直向外侧进行动态鞭打摆动。动态训练单侧臀肌锁死以及对抗侧骨盆控制力，打造起跳力传导不晃动的强悍核心。";
+    } else if (nameLower.includes("achilles stretch") || nameLower.includes("跟腱拉伸")) {
+        matchedTip = "🦵 **跟腱深度拉伸 (Achilles Stretch)**：直立推墙，拉伸腿在后微屈膝盖向前顶，踩实脚跟。深度牵拉小腿比目鱼肌与跟腱，促进高负荷跳跃后跟腱胶原纤维恢复，润滑跟腱。";
+    } else if (nameLower.includes("ankle rocker") || nameLower.includes("脚踝前后摇摆")) {
+        matchedTip = "🦶 **脚踝前后摇摆 (Ankle Rockers)**：双脚略宽于肩，重心在脚底前后动态滚动，从脚后跟过渡到前脚掌耸立。动态热身足底筋膜、跟腱与比目鱼肌，为高冲击弹跳建立足底刚性。";
     } else if (nameLower.includes("nordic ham")) {
         matchedTip = "🍗 **等长北欧腘绳肌 (Nordic Hamstrings)**：膝盖下方垫软垫，小腿固定。离心下落前前倾至受力极限，静止保持 5 秒后撑回，或进行最大心力控制前倾速度。极速强化腘绳肌，防御腘绳肌拉伤与ACL撕裂。";
     } else if (nameLower.includes("towel pull up") || nameLower.includes("pull up")) {
         matchedTip = "🧗 **引体向上 (Pull Ups)**：双手抓握（毛巾抓握更佳以强化前臂握力），核心收紧。向上拉起时胸口贴杠，肩胛骨向后下内收。强化上身背部肌群，增加起跳摆臂的上拉动能转化。";
     } else if (nameLower.includes("pogo")) {
         matchedTip = "🦘 **跟腱超等长刚性弹跳 (Pogo Jumps)**：锁死双膝与双髋，全身直立。要领：落地触地时间尽可能缩短，脚后跟尽量不触地，纯靠足踝复合体与小腿跟腱的被动拉伸弹性‘反射起飞’。这是跟腱与踝关节刚性强化的王牌动作，防起跳漏力。";
+    } else if (nameLower.includes("smr") || nameLower.includes("泡沫轴")) {
+        matchedTip = "💆 **泡沫轴肌筋膜释放 (SMR - Calves/Glutes)**：利用泡沫轴对小腿后侧（比目鱼肌、腓肠肌）以及臀大肌/臀中肌进行缓慢滚压，在痛点或发紧处停留 20-30 秒配合深呼吸。此动作旨在消除高冲击跳跃后肌纤维产生的微小激痛结节，帮助肌肉恢复自然的静息长度，同时**完全不牵拉/不损害跟腱与 patella 肌腱的起跳刚度**！";
+    } else if (nameLower.includes("dead hang") || nameLower.includes("悬吊")) {
+        matchedTip = "🧗 **单杠自重悬吊脊柱减压 (Dead Hang Spinal Decompression)**：双手抓握引体向上单杠，身体完全悬空，保持双肩放松下沉（不要缩脖子），闭眼进行深长呼吸。本动作用于瞬间拉开高冲击落地对脊椎骨、椎间盘以及腰部关节产生的巨大垂直压迫，是隔离下背部酸痛、维护脊柱力传导强度的神级恢复动作。";
+    } else if (nameLower.includes("4-7-8") || nameLower.includes("呼吸")) {
+        matchedTip = "🌬️ **4-7-8 中枢神经降温 (4-7-8 CNS Down-Regulation)**：平躺并将双腿垫高（促进血液回流）。用鼻子静音吸气 4 秒，屏气 7 秒，然后用嘴慢吐气 8 秒。循环 3-5 分钟。此动作能以最快速度从“战斗或逃跑”的交感神经状态，切换为负责修复和养分传递的**副交感神经合成代谢状态**，加速肌腱修复进程！";
     }
     
     const uri = EVA_EX_LINKS[exName] || "";
