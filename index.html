@@ -1,0 +1,2280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精英垂直弹跳学院 - EVA 训练大师看板</title>
+    <!-- Google Fonts Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Load Global Data Files -->
+    <script src="eva_data.js"></script>
+    <script src="eva_mobility_data.js"></script>
+    <script src="eva_exercise_details.js"></script>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #171c26 0%, #080a0e 100%);
+            --accent-blue: #00f2fe;
+            --accent-purple: #4facfe;
+            --accent-orange: #ff3366;
+            --accent-amber: #ffb300;
+            --card-bg: rgba(22, 25, 35, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f6fa;
+            --text-secondary: #a0aec0;
+            --text-muted: #636e72;
+            --glow-blue: 0 0 15px rgba(0, 242, 254, 0.35);
+            --glow-orange: 0 0 15px rgba(255, 51, 102, 0.35);
+            --sidebar-width: 320px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* Webkit Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(11, 12, 16, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(12, 14, 21, 0.95);
+            border-right: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .logo-area {
+            padding: 24px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .navigator {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin: 20px 0 10px 8px;
+            font-weight: 700;
+        }
+
+        .stage-group {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .stage-header {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 2px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .week-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .week-btn.active {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(79, 172, 254, 0.05));
+            border-left: 3px solid var(--accent-blue);
+            color: var(--text-primary);
+            font-weight: 600;
+            box-shadow: var(--glow-blue);
+        }
+
+        .nav-item-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            color: var(--text-secondary);
+        }
+
+        .week-btn.active .nav-item-badge {
+            background: var(--accent-blue);
+            color: var(--bg-color);
+            font-weight: 700;
+        }
+
+        /* --- Main Content Layout --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 32px;
+            max-width: 1400px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* --- App Top Bar --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            border-radius: 16px;
+        }
+
+        .current-nav-info h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .current-nav-info p {
+            font-size: 13px;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .top-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: var(--bg-color);
+            box-shadow: var(--glow-blue);
+        }
+
+        /* --- Content Panels --- */
+        .panel {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .panel.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Grid Configurations --- */
+        .grid-main {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+        }
+
+        /* --- Stage Philosophy Card --- */
+        .philosophy-card {
+            background: linear-gradient(135deg, rgba(22, 25, 35, 0.95), rgba(12, 14, 21, 0.95));
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .phil-icon {
+            width: 54px;
+            height: 54px;
+            background: rgba(0, 242, 254, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .phil-content h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .phil-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- Workout Navigator Days Bar --- */
+        .days-bar {
+            display: flex;
+            gap: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 12px;
+            align-self: flex-start;
+        }
+
+        .day-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .day-tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .day-tab-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-blue);
+            box-shadow: inset 0 0 5px rgba(255,255,255,0.03);
+        }
+
+        /* --- Routine List Cards --- */
+        .routine-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: var(--accent-purple);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .section-badge {
+            font-size: 11px;
+            color: var(--accent-purple);
+            font-weight: 600;
+            background: rgba(79, 172, 254, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .items-list {
+            padding: 8px 0;
+        }
+
+        .exercise-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-item:hover {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-title:hover {
+            color: var(--accent-blue);
+            text-shadow: 0 0 5px rgba(0, 242, 254, 0.2);
+        }
+
+        .item-title::after {
+            content: '🎬 视频详解';
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.03);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.04);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .item-info:hover .item-title::after {
+            color: var(--accent-blue);
+            background: rgba(0, 242, 254, 0.1);
+            border-color: rgba(0, 242, 254, 0.2);
+            opacity: 1;
+        }
+
+        .item-tempo {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            background: rgba(255, 179, 0, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            width: max-content;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .action-icon-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        .action-icon-btn.timer-btn {
+            color: var(--accent-amber);
+            border-color: rgba(255, 179, 0, 0.2);
+            background: rgba(255, 179, 0, 0.05);
+        }
+
+        .action-icon-btn.timer-btn:hover {
+            background: var(--accent-amber);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(255, 179, 0, 0.3);
+        }
+
+        /* --- Interactive Timer Widgets --- */
+        .timer-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 32px;
+            align-self: flex-start;
+        }
+
+        .timer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .timer-display-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.04);
+            stroke-width: 8;
+        }
+
+        .timer-circle-progress {
+            fill: none;
+            stroke: var(--accent-orange);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 565;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .timer-digits {
+            position: absolute;
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-shadow: var(--glow-orange);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .timer-unit {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .timer-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn.btn-primary {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: var(--text-primary);
+            box-shadow: var(--glow-orange);
+        }
+
+        .btn.btn-primary:hover {
+            background: #ff557f;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+        }
+
+        .timer-focus-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            background: rgba(255,255,255,0.02);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.03);
+            line-height: 1.5;
+        }
+
+        /* --- Calculator Section --- */
+        .calc-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-control {
+            width: 100%;
+            background: rgba(11, 12, 16, 0.7);
+            border: 1px solid var(--card-border);
+            padding: 12px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-control:focus {
+            border-color: var(--accent-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .input-unit {
+            position: absolute;
+            right: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .calc-result-box {
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px dashed rgba(0, 242, 254, 0.2);
+            padding: 16px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-shadow: var(--glow-blue);
+        }
+
+        .result-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .indicator-gauge {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .indicator-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff3366, #ffb300, #00f2fe);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .target-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--text-primary);
+        }
+
+        /* --- PAP Tempo Visualizer --- */
+        .tempo-visualizer {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tempo-bars {
+            display: flex;
+            height: 100px;
+            gap: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+            align-items: flex-end;
+            position: relative;
+        }
+
+        .tempo-stage-bar {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 12px;
+            position: relative;
+            height: 100%;
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: var(--transition);
+        }
+
+        .tempo-stage-bar.active {
+            background: rgba(79, 172, 254, 0.15);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.1);
+        }
+
+        .tempo-stage-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .tempo-stage-dur {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .tempo-stage-bar.active .tempo-stage-dur {
+            color: var(--accent-purple);
+        }
+
+        .tempo-play-btn {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        /* --- Logs & Tracker Section --- */
+        .logs-table-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow-x: auto;
+        }
+
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .logs-table th {
+            background: rgba(255,255,255,0.02);
+            padding: 16px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logs-table td {
+            padding: 16px 20px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .logs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .logs-table input {
+            background: rgba(11, 12, 16, 0.5);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: 6px;
+            width: 80px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .logs-table input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chart-container {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0,0,0,0.15);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .chart-bar-fill {
+            width: 32px;
+            background: linear-gradient(180deg, var(--accent-blue), rgba(0, 242, 254, 0.1));
+            border-radius: 6px 6px 0 0;
+            height: 0%;
+            transition: height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+        }
+
+        .chart-bar-lbl {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* --- Exercise Detail Modal --- */
+        .modal-overlay-ex {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(8, 10, 14, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal-ex-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 680px;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            animation: modalSlideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal-ex-close-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-ex-close-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-ex-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding-right: 40px;
+        }
+
+        .modal-ex-body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-ex-video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            background: #000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .modal-ex-video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .modal-ex-coaching-box {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .modal-ex-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .modal-meta-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .modal-meta-pill span {
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        @keyframes modalFadeIn {
+            from { background: rgba(8, 10, 14, 0); backdrop-filter: blur(0); }
+            to { background: rgba(8, 10, 14, 0.8); backdrop-filter: blur(20px); }
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- Footer Info --- */
+        .footer {
+            margin-top: 40px;
+            border-top: 1px solid var(--card-border);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* --- Mobile Toggle --- */
+        .mobile-menu-btn {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        /* --- Animations & Responsive --- */
+        @media (max-width: 1024px) {
+            .grid-main {
+                grid-template-columns: 1fr;
+            }
+            .timer-card {
+                position: relative;
+                top: 0;
+                width: 100%;
+            }
+            .calc-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .top-bar {
+                padding: 12px;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .top-tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Drawer Trigger Button -->
+    <div style="position: fixed; top: 16px; left: 16px; z-index: 1000;" class="mobile-menu-btn" id="mobile-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </div>
+
+    <!-- --- Sidebar Navigation Drawer --- -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area">
+            <span class="logo-title">ELITE VERTICAL</span>
+            <span class="logo-sub">精英垂直弹跳学院</span>
+        </div>
+        <div class="navigator" id="week-nav">
+            <!-- Dynamic Navigation injected here -->
+        </div>
+    </div>
+
+    <!-- --- Main Content Panel --- -->
+    <div class="main-content">
+        <!-- Top Navigation Status Bar -->
+        <div class="top-bar">
+            <div class="current-nav-info">
+                <p id="curr-stage-subtitle">第一阶段: 激活阶段 (Activation Phase)</p>
+                <h1 id="curr-week-title">第 1 周训练排程</h1>
+            </div>
+            
+            <div class="top-tabs">
+                <button class="tab-btn active" data-target="panel-workout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    今日训练
+                </button>
+                <button class="tab-btn" data-target="panel-mobility" onclick="initMobility()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                    灵活性跟随
+                </button>
+                <button class="tab-btn" data-target="panel-calc">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line><line x1="12" y1="9" x2="12" y2="17"></line></svg>
+                    力量计算器
+                </button>
+                <button class="tab-btn" data-target="panel-logs" onclick="initProgressLogs()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    测试与日志
+                </button>
+            </div>
+        </div>
+
+        <!-- --- Tab Panel 1: Today's Workout --- -->
+        <div class="panel active" id="panel-workout">
+            <!-- Stage Theory Introduction Header -->
+            <div class="philosophy-card">
+                <div class="phil-icon" id="phil-stage-icon">🧬</div>
+                <div class="phil-content">
+                    <h3 id="phil-stage-name">等长收缩激活基础 (Activation Theory)</h3>
+                    <p id="phil-stage-desc">在第一阶段，我们将最大化利用等长收缩。通过在特定关节角度进行强力静止阻抗，能有效增加下肢（特别是足底、跟腱与膝盖周围）的肌腱刚性。这有助于减少肌肉代偿，并教导中枢神经系统最大幅度募招动作相关的快缩肌纤维运动单位。</p>
+                </div>
+            </div>
+
+            <!-- Day Selector Bar -->
+            <div class="days-bar" id="days-bar">
+                <!-- Day buttons injected here -->
+            </div>
+
+            <!-- Main Layout Grid (Routine Details + Live Timer) -->
+            <div class="grid-main">
+                <!-- Left Column: Workout sections -->
+                <div class="routine-wrapper" id="routine-items">
+                    <!-- Daily exercise sections injected here -->
+                </div>
+
+                <!-- Right Column: Live synthesized countdown timer -->
+                <div class="timer-card">
+                    <div class="timer-header">
+                        <span class="timer-title">等长 / 离心倒计时</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                    </div>
+                    
+                    <div class="timer-display-wrapper">
+                        <svg class="timer-circle">
+                            <circle class="timer-circle-bg" cx="100" cy="100" r="90"></circle>
+                            <circle class="timer-circle-progress" id="timer-progress" cx="100" cy="100" r="90"></circle>
+                        </svg>
+                        <div class="timer-digits">
+                            <span id="timer-time-str">02:00</span>
+                            <span class="timer-unit">Remaining</span>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 13px; font-weight: 600; text-align: center;" id="timer-active-ex">
+                        未加载动作
+                    </div>
+
+                    <div class="timer-controls">
+                        <button class="btn btn-primary" id="timer-play-btn" onclick="toggleTimer()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            开始
+                        </button>
+                        <button class="btn" onclick="resetTimer()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                            重置
+                        </button>
+                    </div>
+
+                    <div class="timer-focus-desc">
+                        💡 <b>超极限等长要领</b>：不要只是“被动”承受体重，要用意念拼命主动“把身体往地里拉”。这会让你的主动肌与对抗肌同时全负荷开火！
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Tab Panel 2: Mobility Follow-along --- -->
+        <div class="panel" id="panel-mobility">
+            <div class="philosophy-card" style="background: linear-gradient(135deg, #102a43, #022040);">
+                <div class="phil-icon" style="background: rgba(79, 172, 254, 0.2); color: var(--accent-purple);">🧘</div>
+                <div class="phil-content">
+                    <h3>关节灵活性与伤病隔离矫正 (Mobility Guide)</h3>
+                    <p>Chris Barnard 强调，肌肉粘连与足踝/髋部的受限，是大部分“跳跃者膝”代偿的温床。通过按部就班在训练前进行 10 分钟深度关节解锁，你的弹跳才不会遭遇漏力或膝盖酸痛。</p>
+                </div>
+            </div>
+
+            <div class="grid-main">
+                <div class="routine-wrapper" id="mobility-items">
+                    <!-- Mobility items injected here -->
+                </div>
+
+                <!-- Shared count down for stretches -->
+                <div class="timer-card">
+                    <div class="timer-header">
+                        <span class="timer-title" style="color: var(--accent-purple);">拉伸倒计时</span>
+                    </div>
+                    
+                    <div class="timer-display-wrapper">
+                        <svg class="timer-circle">
+                            <circle class="timer-circle-bg" cx="100" cy="100" r="90"></circle>
+                            <circle class="timer-circle-progress" id="mob-timer-progress" cx="100" cy="100" r="90" style="stroke: var(--accent-purple);"></circle>
+                        </svg>
+                        <div class="timer-digits">
+                            <span id="mob-timer-time-str">01:30</span>
+                            <span class="timer-unit">Stretch</span>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 13px; font-weight: 600; text-align: center; color: var(--accent-purple);" id="mob-timer-active-ex">
+                        未加载拉伸
+                    </div>
+
+                    <div class="timer-controls">
+                        <button class="btn" style="background: rgba(79, 172, 254, 0.1); border-color: rgba(79, 172, 254, 0.2); color: var(--accent-purple);" id="mob-timer-play-btn" onclick="toggleMobTimer()">
+                            开始
+                        </button>
+                        <button class="btn" onclick="resetMobTimer()">
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Tab Panel 3: TBD Relative Strength Calculator --- -->
+        <div class="panel" id="panel-calc">
+            <div class="philosophy-card" style="background: linear-gradient(135deg, #2c1e1e, #130a0a);">
+                <div class="phil-icon" style="background: rgba(255, 51, 102, 0.15); color: var(--accent-orange);">🏋️</div>
+                <div class="phil-content">
+                    <h3>下肢发动机：相对力量与牵拉反射评估 (Strength Assessor)</h3>
+                    <p>通过测试您的六角死锁极限力量，您可以一键评估当前的垂直弹跳潜能。如果您的力量系数低于 2.2 倍自重，您的最大限制在于核心绝对负荷；如果高于 2.6 倍自重，您应该重点做神经起步和极速超等长刚性转化！</p>
+                </div>
+            </div>
+
+            <div class="calc-wrapper">
+                <!-- Relative Strength Calculator Card -->
+                <div class="card">
+                    <span class="card-title">
+                        相对力量系数计算器
+                        <span style="font-size: 11px; color: var(--accent-blue);">TBD Relative Strength</span>
+                    </span>
+
+                    <div class="input-group">
+                        <label for="calc-weight">当前体重</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="calc-weight" class="input-control" value="75">
+                            <span class="input-unit">KG</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="calc-tbd">六角死锁拉 TBD 预估 1RM</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="calc-tbd" class="input-control" value="150">
+                            <span class="input-unit">KG</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="calculateStrength()">一键评估力量水平</button>
+
+                    <div class="calc-result-box">
+                        <span id="strength-multiplier" class="result-val">2.00 x</span>
+                        <span id="strength-evaluation" class="result-desc">您的硬拉水平仅占自重的 2.0 倍。这表明您目前绝对力量处于中等水平，尚未迈过精英弹跳的绝对力量门槛（2.2x 自重），建议后续绝对力量周期继续加负荷强化！</span>
+                        <div class="indicator-gauge">
+                            <div class="indicator-fill" id="indicator-fill" style="width: 40%;"></div>
+                            <div class="target-marker" style="left: 60%;" title="2.2x 门槛"></div>
+                            <div class="target-marker" style="left: 80%;" title="2.6x 门槛"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAP Tempo Visualizer Box -->
+                <div class="card">
+                    <span class="card-title">
+                        PAP 三相时间节奏模拟器
+                        <span style="font-size: 11px; color: var(--accent-purple);">Triphasic Tempo Visualizer</span>
+                    </span>
+
+                    <div class="input-group">
+                        <label for="tempo-type">选择阶段节奏 (Tempo Style)</label>
+                        <select id="tempo-type" class="input-control" style="background: rgba(11,12,16,0.7); cursor: pointer;" onchange="updateTempoPreset()">
+                            <option value="1-5-X">阶段一 [1|5|X] - 激活等长控制主导</option>
+                            <option value="6-X-X">阶段二 [6|X|X] - 减速超长离心蓄力</option>
+                            <option value="1-1-X">阶段三 [1|1|X] - 纯向心爆发无牵拉起跳</option>
+                            <option value="X-X-X">阶段四 [X|X|X] - 极速神经弹跳反应</option>
+                        </select>
+                    </div>
+
+                    <div class="tempo-visualizer">
+                        <div class="tempo-bars">
+                            <div class="tempo-stage-bar" id="bar-ecc">
+                                <span class="tempo-stage-lbl">离心 (Eccentric)</span>
+                                <span class="tempo-stage-dur" id="lbl-ecc">1s</span>
+                            </div>
+                            <div class="tempo-stage-bar" id="bar-iso">
+                                <span class="tempo-stage-lbl">等长 (Isometric)</span>
+                                <span class="tempo-stage-dur" id="lbl-iso">5s</span>
+                            </div>
+                            <div class="tempo-stage-bar" id="bar-con">
+                                <span class="tempo-stage-lbl">向心 (Concentric)</span>
+                                <span class="tempo-stage-dur" id="lbl-con">爆发</span>
+                            </div>
+                        </div>
+
+                        <button class="btn tempo-play-btn" onclick="startTempoAnimation()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            开始声效节拍器跟随 (Listen & Feel)
+                        </button>
+                    </div>
+
+                    <div class="timer-focus-desc" style="border-color: rgba(79, 172, 254, 0.2);">
+                        💡 <b>发音指示</b>：离心阶段（重物下落）➔ 等长阶段（静止死锁，积聚力量）➔ 向心阶段（以脑能极限速度“X”炸裂式站起）。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Tab Panel 4: Baseline Testing Progress Logs --- -->
+        <div class="panel" id="panel-logs">
+            <div class="philosophy-card" style="background: linear-gradient(135deg, #0f2b23, #021a14);">
+                <div class="phil-icon" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-blue);">📈</div>
+                <div class="phil-content">
+                    <h3>数据量化可视化追踪 (Baseline Progress Metrics)</h3>
+                    <p>所有输入数据将完美保存在您的浏览器本地数据库（localStorage）。请在开始计划的第一天、每一阶段结束的那天以及第 16 周的冲刺日，记录下您的数据变化，共同见证重力被战胜的过程！</p>
+                </div>
+            </div>
+
+            <!-- Testing Logs Input & Historical Table -->
+            <div class="logs-table-wrapper">
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>测评节点 (Milestone)</th>
+                            <th>体重 (KG)</th>
+                            <th>六角硬拉 3RM (KG)</th>
+                            <th>立定跳远 (CM)</th>
+                            <th>立定垂直跳 (CM)</th>
+                            <th>双脚助跑弹跳 (CM)</th>
+                            <th>单脚助跑弹跳 (CM)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-table-body">
+                        <!-- History rows and inputs injected here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Charts Representation Card -->
+            <div class="chart-card">
+                <span class="card-title">
+                    原地垂直弹跳增长演进曲线 (CM)
+                    <span style="font-size: 11px; color: var(--accent-blue);">Vertical Jump Improvement</span>
+                </span>
+                <div class="chart-container" id="chart-container">
+                    <!-- Dynamic chart bars rendering here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Exercise Detail Modal Overlay --- -->
+        <div id="ex-modal" class="modal-overlay-ex" style="display: none;">
+            <div class="modal-ex-card">
+                <button class="modal-ex-close-btn" onclick="closeExModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                <h2 id="modal-ex-name" class="modal-ex-title">动作名称</h2>
+                <div class="modal-ex-body">
+                    <!-- 🎬 Youtube Video Embed Container -->
+                    <div class="modal-ex-video-container" id="modal-ex-video-wrap" style="display: none;">
+                        <iframe id="modal-ex-video-frame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="modal-ex-coaching-box">
+                        <h3 style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 12px; letter-spacing: 0.05em;">Coaching Tips / 动作要领与讲解</h3>
+                        <p id="modal-ex-coaching" style="font-size: 13px; line-height: 1.7; color: var(--text-secondary);"></p>
+                    </div>
+                    <div class="modal-ex-meta" id="modal-ex-meta-area">
+                        <!-- Dynamic Meta pills -->
+                    </div>
+                </div>
+                <div class="modal-ex-actions">
+                    <a id="modal-ex-video-btn" href="#" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border: none; box-shadow: var(--glow-blue); width: 100%; text-decoration: none; display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                        跳转外部动作视频网页
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Area -->
+        <div class="footer">
+            <span>© 2026 精英垂直弹跳学院 (EVA). Chris Barnard Modified Triphasic Master.</span>
+            <div class="footer-links">
+                <a href="#" class="footer-link">理论说明</a>
+                <a href="#" class="footer-link">动作库</a>
+                <a href="#" class="footer-link">联系教练</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live synthesized countdown timer logic -->
+    <script>
+        // State Management
+        let currentStageIdx = 0;
+        let currentWeekIdx = 0;
+        let currentDayIdx = 0;
+        let currentTab = "panel-workout";
+
+        // DOM Cache
+        const weekNav = document.getElementById('week-nav');
+        const currStageSubtitle = document.getElementById('curr-stage-subtitle');
+        const currWeekTitle = document.getElementById('curr-week-title');
+        const daysBar = document.getElementById('days-bar');
+        const routineItems = document.getElementById('routine-items');
+        const sidebar = document.getElementById('sidebar');
+        const mobileToggle = document.getElementById('mobile-toggle');
+
+        // Web Audio synthesized sound generator
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBeep(frequency, duration, type = 'sine') {
+            initAudio();
+            if (!audioCtx) return;
+            try {
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.type = type;
+                oscillator.frequency.value = frequency;
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.error("Audio playback error:", e);
+            }
+        }
+
+        // Timer Logic
+        let timerInterval = null;
+        let timerSecondsLeft = 0;
+        let timerDuration = 0;
+        let timerRunning = false;
+        let timerExName = "";
+
+        const timerProgress = document.getElementById('timer-progress');
+        const timerTimeStr = document.getElementById('timer-time-str');
+        const timerActiveEx = document.getElementById('timer-active-ex');
+        const timerPlayBtn = document.getElementById('timer-play-btn');
+
+        function loadTimer(exName, durationSeconds) {
+            resetTimer();
+            timerSecondsLeft = durationSeconds;
+            timerDuration = durationSeconds;
+            timerExName = exName;
+            timerActiveEx.innerText = exName;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const min = Math.floor(timerSecondsLeft / 60);
+            const sec = timerSecondsLeft % 60;
+            timerTimeStr.innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            
+            // Progress Ring
+            if (timerDuration > 0) {
+                const offset = 565 - (timerSecondsLeft / timerDuration) * 565;
+                timerProgress.style.strokeDashoffset = offset;
+            } else {
+                timerProgress.style.strokeDashoffset = 0;
+            }
+        }
+
+        function toggleTimer() {
+            initAudio();
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerPlayBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>开始`;
+            } else {
+                if (timerSecondsLeft <= 0) return;
+                timerRunning = true;
+                timerPlayBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>暂停`;
+                playBeep(600, 0.1);
+                timerInterval = setInterval(() => {
+                    timerSecondsLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timerSecondsLeft > 0 && timerSecondsLeft <= 3) {
+                        playBeep(440, 0.08); // countdown tick
+                    }
+                    
+                    if (timerSecondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        timerPlayBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>开始`;
+                        playBeep(880, 0.4, 'triangle'); // complete alert
+                        setTimeout(() => playBeep(880, 0.4, 'triangle'), 150);
+                        // visual flash screen alert
+                        document.body.style.backgroundColor = 'rgba(255, 51, 102, 0.3)';
+                        setTimeout(() => { document.body.style.backgroundColor = ''; }, 300);
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerSecondsLeft = timerDuration;
+            timerPlayBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>开始`;
+            updateTimerDisplay();
+        }
+
+        // Mobility Timer Logic
+        let mobTimerInterval = null;
+        let mobTimerSecondsLeft = 0;
+        let mobTimerDuration = 0;
+        let mobTimerRunning = false;
+        let mobTimerExName = "";
+
+        const mobTimerProgress = document.getElementById('mob-timer-progress');
+        const mobTimerTimeStr = document.getElementById('mob-timer-time-str');
+        const mobTimerActiveEx = document.getElementById('mob-timer-active-ex');
+        const mobTimerPlayBtn = document.getElementById('mob-timer-play-btn');
+
+        function loadMobilityTimer(exName, durationSeconds) {
+            resetMobTimer();
+            mobTimerSecondsLeft = durationSeconds;
+            mobTimerDuration = durationSeconds;
+            mobTimerExName = exName;
+            mobTimerActiveEx.innerText = exName;
+            updateMobTimerDisplay();
+        }
+
+        function updateMobTimerDisplay() {
+            const min = Math.floor(mobTimerSecondsLeft / 60);
+            const sec = mobTimerSecondsLeft % 60;
+            mobTimerTimeStr.innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            
+            if (mobTimerDuration > 0) {
+                const offset = 565 - (mobTimerSecondsLeft / mobTimerDuration) * 565;
+                mobTimerProgress.style.strokeDashoffset = offset;
+            } else {
+                mobTimerProgress.style.strokeDashoffset = 0;
+            }
+        }
+
+        function toggleMobTimer() {
+            initAudio();
+            if (mobTimerRunning) {
+                clearInterval(mobTimerInterval);
+                mobTimerRunning = false;
+                mobTimerPlayBtn.innerText = "开始";
+            } else {
+                if (mobTimerSecondsLeft <= 0) return;
+                mobTimerRunning = true;
+                mobTimerPlayBtn.innerText = "暂停";
+                playBeep(600, 0.1);
+                mobTimerInterval = setInterval(() => {
+                    mobTimerSecondsLeft--;
+                    updateMobTimerDisplay();
+                    
+                    if (mobTimerSecondsLeft > 0 && mobTimerSecondsLeft <= 3) {
+                        playBeep(440, 0.08);
+                    }
+                    
+                    if (mobTimerSecondsLeft <= 0) {
+                        clearInterval(mobTimerInterval);
+                        mobTimerRunning = false;
+                        mobTimerPlayBtn.innerText = "开始";
+                        playBeep(880, 0.4, 'triangle');
+                        setTimeout(() => playBeep(880, 0.4, 'triangle'), 150);
+                        document.body.style.backgroundColor = 'rgba(79, 172, 254, 0.3)';
+                        setTimeout(() => { document.body.style.backgroundColor = ''; }, 300);
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetMobTimer() {
+            clearInterval(mobTimerInterval);
+            mobTimerRunning = false;
+            mobTimerSecondsLeft = mobTimerDuration;
+            mobTimerPlayBtn.innerText = "开始";
+            updateMobTimerDisplay();
+        }
+
+        // Render Sidebar Menu
+        function renderSidebar() {
+            weekNav.innerHTML = '';
+            
+            EVA_DATABASE.forEach((stage, stageIdx) => {
+                const stageGroup = document.createElement('div');
+                stageGroup.className = 'stage-group';
+                
+                const header = document.createElement('div');
+                header.className = 'stage-header';
+                header.innerHTML = `<span>${stage.name.split(':')[0]}</span><span class="nav-item-badge">${stage.weeks.length}W</span>`;
+                stageGroup.appendChild(header);
+                
+                stage.weeks.forEach((week, weekIdx) => {
+                    const btn = document.createElement('a');
+                    btn.className = `week-btn ${stageIdx === currentStageIdx && weekIdx === currentWeekIdx ? 'active' : ''}`;
+                    btn.innerHTML = `<span>第 ${week.week_num} 周手册</span> <span class="nav-item-badge">${week.days.length}天</span>`;
+                    
+                    btn.addEventListener('click', () => {
+                        currentStageIdx = stageIdx;
+                        currentWeekIdx = weekIdx;
+                        currentDayIdx = 0;
+                        
+                        // Update active navigations
+                        document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        loadWorkout();
+                        if (currentTab === 'panel-mobility') {
+                            initMobility();
+                        }
+                        
+                        // Close sidebar on mobile
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('open');
+                        }
+                    });
+                    
+                    stageGroup.appendChild(btn);
+                });
+                
+                weekNav.appendChild(stageGroup);
+            });
+        }
+
+        // Load Active Workout
+        function loadWorkout() {
+            const stage = EVA_DATABASE[currentStageIdx];
+            const week = stage.weeks[currentWeekIdx];
+            
+            currStageSubtitle.innerText = stage.name;
+            currWeekTitle.innerText = `第 ${week.week_num} 周训练排程`;
+            
+            // Render Day Selector Tabs
+            daysBar.innerHTML = '';
+            week.days.forEach((day, dayIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `day-tab-btn ${dayIdx === currentDayIdx ? 'active' : ''}`;
+                btn.innerText = `Day ${day.day_num}`;
+                btn.addEventListener('click', () => {
+                    currentDayIdx = dayIdx;
+                    document.querySelectorAll('.day-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderExercises();
+                });
+                daysBar.appendChild(btn);
+            });
+            
+            // Load Stage Philosophy
+            updateStagePhilosophy(stage.raw_name);
+            
+            renderExercises();
+        }
+
+        function updateStagePhilosophy(rawName) {
+            const stageIcon = document.getElementById('phil-stage-icon');
+            const stageName = document.getElementById('phil-stage-name');
+            const stageDesc = document.getElementById('phil-stage-desc');
+            
+            if (rawName.includes('4 EVA第一阶段')) {
+                stageIcon.innerText = '🧬';
+                stageName.innerText = '阶段一：等长收缩激活基础 (Activation Stage)';
+                stageDesc.innerText = '本阶段的核心任务是募集运动神经单位与提升足踝肌腱刚性。我们通过长达 2-3 分钟的超极限等长动作，迫使快缩肌激活并消除膝关节代偿，为您提供无痛、刚强的弹性起跳根基。';
+            } else if (rawName.includes('5 EVA第二阶段')) {
+                stageIcon.innerText = '🛑';
+                stageName.innerText = '阶段二：高强度离心储力 (Absorption Stage)';
+                stageDesc.innerText = '本阶段是您的“刹车升级”。通过高冲击深度降落（Depth Drops）与高达 6 秒的阻力带慢离心深蹲，极度兴奋肌肉主轴，驯服高尔基腱反射，从而更完美地在下落阶段吸收重力加速度并转化为弹力。';
+            } else if (rawName.includes('6 EVA第三阶段')) {
+                stageIcon.innerText = '⚡';
+                stageName.innerText = '阶段三：纯肌肉向心推进 (Propulsion Stage)';
+                stageDesc.innerText = '本阶段是推进马力的爆发。我们将离心与向心剥离，通过无预摆的箱式爆发起跳与重负荷抛掷，训练发力率（RFD）。这让您能够在起跳的毫秒之间爆发出纯肌肉的巅峰推进。';
+            } else {
+                stageIcon.innerText = '🚀';
+                stageName.innerText = '阶段四：PAP 神经同步峰值 (Peak Stage)';
+                stageDesc.innerText = '本阶段是弹跳升空的收官作。通过重负荷深蹲超级组起跳（复合训练）来激发 Post-Activation Potentiation 效应；同时采用阻力带悬挂减重（超速起跳），让神经释放极限的高速神经编码。';
+            }
+        }
+
+        // Render Workout Exercises
+        function renderExercises() {
+            const stage = EVA_DATABASE[currentStageIdx];
+            const week = stage.weeks[currentWeekIdx];
+            const day = week.days[currentDayIdx];
+            
+            routineItems.innerHTML = '';
+            
+            if (!day || !day.sections || day.sections.length === 0) {
+                routineItems.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-secondary);">今日无训练安排或未录入手册</p></div>';
+                return;
+            }
+            
+            day.sections.forEach(section => {
+                const secCard = document.createElement('div');
+                secCard.className = 'section-card';
+                
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="section-title">${translateSectionName(section.name)}</span> <span class="section-badge">${section.items.length} 动作</span>`;
+                secCard.appendChild(header);
+                
+                const itemsList = document.createElement('div');
+                itemsList.className = 'items-list';
+                
+                section.items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'exercise-item';
+                    
+                    // Identify tempo
+                    let tempoSpan = '';
+                    if (item.text.includes('Tempo')) {
+                        const match = item.text.match(/Tempo\s*-\s*\[(.*?)\]/);
+                        if (match) {
+                            tempoSpan = `<span class="item-tempo">三相节奏 [${match[1]}]</span>`;
+                        }
+                    }
+                    
+                    const cleanedText = item.text.split('|')[0].trim();
+                    let baseName = cleanedText.replace(/^\d+\.[A-Z]?\.\s*|^\d+\.\s*/, '');
+                    baseName = baseName.split(' - ')[0].split(' @')[0].split(' [')[0].trim();
+                    
+                    const info = document.createElement('div');
+                    info.className = 'item-info';
+                    info.innerHTML = `<span class="item-title">${cleanedText}</span> ${tempoSpan}`;
+                    info.addEventListener('click', () => {
+                        openExModal(baseName, item.text);
+                    });
+                    itemDiv.appendChild(info);
+                    
+                    // Action items (Timer if available)
+                    const actions = document.createElement('div');
+                    actions.className = 'item-actions';
+                    
+                    if (item.has_timer) {
+                        const timerBtn = document.createElement('button');
+                        timerBtn.className = 'action-icon-btn timer-btn';
+                        timerBtn.title = '载入计时器';
+                        timerBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+                        timerBtn.addEventListener('click', (e) => {
+                            e.stopPropagation(); // prevent opening modal
+                            loadTimer(cleanedText.replace(/^\d+\.[A-Z]?\.\s*|^\d+\.\s*/, ''), item.duration);
+                            if (window.innerWidth <= 1024) {
+                                document.querySelector('.timer-card').scrollIntoView({ behavior: 'smooth' });
+                            }
+                        });
+                        actions.appendChild(timerBtn);
+                    }
+                    
+                    itemDiv.appendChild(actions);
+                    itemsList.appendChild(itemDiv);
+                });
+                
+                secCard.appendChild(itemsList);
+                routineItems.appendChild(secCard);
+            });
+        }
+
+        function translateSectionName(name) {
+            const dict = {
+                'Dynamic Warm Up': '动态热身 (Dynamic Warm Up)',
+                'Power': '神经爆发力与超等长 (Power Plyos)',
+                'Strength': '核心复合力量 (Compound Strength)',
+                'Auxiliary': '非对称与辅助侧向强化 (Auxiliary Exercises)',
+                'Build': '后链肌肉肥大与刚性积累 (Structural Build)',
+                'Trunk': '核心抗旋转与腹压刚度 (Trunk Core)'
+            };
+            return dict[name] || name;
+        }
+
+        // Tab Navigation Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.target;
+                
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(target).classList.add('active');
+                currentTab = target;
+            });
+        });
+
+        // Toggle Sidebar on Mobile
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // --- Exercise Detail Modal Popup Logic ---
+        function openExModal(cleanedName, fullText) {
+            const details = getExerciseCoachingDetails(cleanedName);
+            
+            document.getElementById('modal-ex-name').innerText = cleanedName;
+            
+            // Format bold text
+            let formattedTip = details.tip.replace(/\*\*(.*?)\*\?/g, '<strong style="color: var(--text-primary);">$1</strong>');
+            formattedTip = formattedTip.replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--accent-blue); font-weight: 700;">$1</strong>');
+            document.getElementById('modal-ex-coaching').innerHTML = formattedTip;
+            
+            const metaArea = document.getElementById('modal-ex-meta-area');
+            metaArea.innerHTML = '';
+            
+            let setsReps = "";
+            let percentage = "";
+            let tempo = "";
+            
+            const srMatch = fullText.match(/-\s*(\d+\s*x\s*[^@|]+)/i);
+            if (srMatch) setsReps = srMatch[1].trim();
+            
+            const pMatch = fullText.match(/@\s*(\d+%)/);
+            if (pMatch) percentage = pMatch[1].trim();
+            
+            const tMatch = fullText.match(/Tempo\s*-\s*\[(.*?)\]/i);
+            if (tMatch) tempo = `[${tMatch[1].trim()}]`;
+            
+            if (setsReps) {
+                metaArea.innerHTML += `<div class="modal-meta-pill">预设组次数 <span>${setsReps}</span></div>`;
+            }
+            if (percentage) {
+                metaArea.innerHTML += `<div class="modal-meta-pill">目标负荷百分比 <span>${percentage}</span></div>`;
+            }
+            if (tempo) {
+                metaArea.innerHTML += `<div class="modal-meta-pill" style="color: var(--accent-amber); border-color: rgba(255,179,0,0.25); background: rgba(255,179,0,0.02)">三相节奏参数 <span>${tempo}</span></div>`;
+            }
+            
+            // Update Video Player or External Link
+            const videoWrap = document.getElementById('modal-ex-video-wrap');
+            const videoFrame = document.getElementById('modal-ex-video-frame');
+            const videoBtn = document.getElementById('modal-ex-video-btn');
+            
+            if (details.youtubeId) {
+                // Direct embed YouTube via iframe!
+                videoFrame.src = `https://www.youtube.com/embed/${details.youtubeId}?rel=0&autoplay=1`;
+                videoWrap.style.display = 'block';
+                videoBtn.href = `https://www.youtube.com/watch?v=${details.youtubeId}`;
+                videoBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>在 YouTube 中打开演示视频`;
+                videoBtn.style.display = 'flex';
+            } else if (details.videoUrl) {
+                // Fallback to link button if no YouTube ID exists
+                videoFrame.src = "";
+                videoWrap.style.display = 'none';
+                videoBtn.href = details.videoUrl;
+                if (details.videoUrl.includes('youtube.com') || details.videoUrl.includes('youtu.be')) {
+                    videoBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>在 YouTube 中打开演示视频`;
+                } else {
+                    videoBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>跳转外部演示网页`;
+                }
+                videoBtn.style.display = 'flex';
+            } else {
+                // No video available
+                videoFrame.src = "";
+                videoWrap.style.display = 'none';
+                videoBtn.style.display = 'none';
+            }
+            
+            document.getElementById('ex-modal').style.display = 'flex';
+        }
+
+        function closeExModal() {
+            // Stop video playing by clearing iframe src
+            document.getElementById('modal-ex-video-frame').src = "";
+            document.getElementById('ex-modal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the card
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('ex-modal');
+            if (e.target === modal) {
+                closeExModal();
+            }
+        });
+
+        // --- Tab 2: Mobility Follow-along Logic ---
+        function initMobility() {
+            const mobItems = document.getElementById('mobility-items');
+            mobItems.innerHTML = '';
+            
+            // Detect appropriate Phase and Days based on current selections
+            const stage = EVA_DATABASE[currentStageIdx];
+            const rawName = stage.raw_name;
+            
+            let phaseKey = "Phase 1";
+            if (rawName.includes('第一阶段')) phaseKey = "Phase 1";
+            else if (rawName.includes('第二阶段')) phaseKey = "Phase 2";
+            else phaseKey = "Phase 3 & 4";
+            
+            const routines = EVA_MOBILITY_DATABASE[phaseKey];
+            
+            if (phaseKey === "Phase 3 & 4") {
+                renderMobilitySection(mobItems, "Every Session", routines["Every Session"]);
+            } else {
+                const currentDayNum = currentDayIdx + 1;
+                const isOddDay = (currentDayNum === 1 || currentDayNum === 3);
+                const dayKey = isOddDay ? "Days 1 & 3" : "Days 2 & 4";
+                
+                renderMobilitySection(mobItems, dayKey, routines[dayKey]);
+            }
+        }
+
+        function renderMobilitySection(container, title, routine) {
+            for (let subName in routine) {
+                const card = document.createElement('div');
+                card.className = 'section-card';
+                
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `<span class="section-title" style="color: var(--accent-purple);">${subName === 'Static Stretching' ? '静态深度伸展' : (subName === 'Hip Mobility' ? '髋关节动力性激活' : '全幅度动态伸展')}</span>`;
+                card.appendChild(header);
+                
+                const itemsList = document.createElement('div');
+                itemsList.className = 'items-list';
+                
+                routine[subName].forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'exercise-item';
+                    
+                    const info = document.createElement('div');
+                    info.className = 'item-info';
+                    
+                    let subText = '';
+                    let hasTimer = false;
+                    let duration = 0;
+                    
+                    if (item.duration) {
+                        subText = `<span style="font-size: 11px; color: var(--accent-purple); font-weight: 700;">建议时长: ${item.duration}秒 ${item.each_side ? '(每侧)' : ''}</span>`;
+                        hasTimer = true;
+                        duration = item.duration;
+                    } else {
+                        subText = `<span style="font-size: 11px; color: var(--accent-purple); font-weight: 700;">建议组次数: ${item.sets}组 x ${item.reps}次 ${item.each_side ? '(每侧)' : ''}</span>`;
+                    }
+                    
+                    info.innerHTML = `<span class="item-title">${item.text}</span> ${subText}`;
+                    itemDiv.appendChild(info);
+                    
+                    const actions = document.createElement('div');
+                    actions.className = 'item-actions';
+                    
+                    if (hasTimer) {
+                        const timerBtn = document.createElement('button');
+                        timerBtn.className = 'action-icon-btn';
+                        timerBtn.style.color = 'var(--accent-purple)';
+                        timerBtn.style.borderColor = 'rgba(79, 172, 254, 0.2)';
+                        timerBtn.style.background = 'rgba(79, 172, 254, 0.05)';
+                        timerBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+                        
+                        timerBtn.addEventListener('click', () => {
+                            loadMobilityTimer(item.text, duration);
+                            if (window.innerWidth <= 1024) {
+                                document.querySelector('#panel-mobility .timer-card').scrollIntoView({ behavior: 'smooth' });
+                            }
+                        });
+                        actions.appendChild(timerBtn);
+                    }
+                    
+                    itemDiv.appendChild(actions);
+                    itemsList.appendChild(itemDiv);
+                });
+                
+                card.appendChild(itemsList);
+                container.appendChild(card);
+            }
+        }
+
+        // --- Tab 3: Relative Strength Calculator Logic ---
+        const tempoPresets = {
+            "1-5-X": { ecc: 1, iso: 5, con: "爆发" },
+            "6-X-X": { ecc: 6, iso: 0, con: "爆发" },
+            "1-1-X": { ecc: 1, iso: 1, con: "爆发" },
+            "X-X-X": { ecc: 0, iso: 0, con: "爆发" }
+        };
+
+        function updateTempoPreset() {
+            const selected = document.getElementById('tempo-type').value;
+            const preset = tempoPresets[selected];
+            
+            document.getElementById('lbl-ecc').innerText = preset.ecc > 0 ? `${preset.ecc}s` : '极速';
+            document.getElementById('lbl-iso').innerText = preset.iso > 0 ? `${preset.iso}s` : '无';
+            document.getElementById('lbl-con').innerText = preset.con;
+        }
+
+        let tempoTimer = null;
+        function startTempoAnimation() {
+            initAudio();
+            const selected = document.getElementById('tempo-type').value;
+            const preset = tempoPresets[selected];
+            
+            const barEcc = document.getElementById('bar-ecc');
+            const barIso = document.getElementById('bar-iso');
+            const barCon = document.getElementById('bar-con');
+            
+            // Reset
+            document.querySelectorAll('.tempo-stage-bar').forEach(b => b.classList.remove('active'));
+            clearTimeout(tempoTimer);
+            
+            if (preset.ecc > 0) {
+                // Phase 1: Eccentric
+                barEcc.classList.add('active');
+                playBeep(330, preset.ecc, 'square');
+                
+                tempoTimer = setTimeout(() => {
+                    barEcc.classList.remove('active');
+                    if (preset.iso > 0) {
+                        // Phase 2: Isometric
+                        barIso.classList.add('active');
+                        playBeep(440, preset.iso, 'sine');
+                        
+                        tempoTimer = setTimeout(() => {
+                            barIso.classList.remove('active');
+                            // Phase 3: Concentric
+                            barCon.classList.add('active');
+                            playBeep(880, 0.3, 'sawtooth');
+                            setTimeout(() => barCon.classList.remove('active'), 800);
+                        }, preset.iso * 1000);
+                    } else {
+                        // Direct Concentric
+                        barCon.classList.add('active');
+                        playBeep(880, 0.3, 'sawtooth');
+                        setTimeout(() => barCon.classList.remove('active'), 800);
+                    }
+                }, preset.ecc * 1000);
+            } else {
+                // Immediate Concentric
+                barCon.classList.add('active');
+                playBeep(880, 0.3, 'sawtooth');
+                setTimeout(() => barCon.classList.remove('active'), 800);
+            }
+        }
+
+        function calculateStrength() {
+            const weight = parseFloat(document.getElementById('calc-weight').value);
+            const tbd = parseFloat(document.getElementById('calc-tbd').value);
+            
+            if (!weight || !tbd) return;
+            
+            const ratio = tbd / weight;
+            document.getElementById('strength-multiplier').innerText = `${ratio.toFixed(2)} x`;
+            
+            const evaluation = document.getElementById('strength-evaluation');
+            const fill = document.getElementById('indicator-fill');
+            
+            // Update indicator fill
+            let percentage = (ratio / 3.0) * 100;
+            fill.style.width = `${Math.min(percentage, 100)}%`;
+            
+            if (ratio < 1.8) {
+                evaluation.innerText = `您的六角杠硬拉极限系数为 ${ratio.toFixed(2)}。这表明您的绝对力量非常薄弱，尚未达到支撑爆发力起跳所需的基本刚性。在这个阶段，绝对力量是阻碍您弹跳的致命短板，务必在计划前两阶段拼命增加 Trap Bar 重量！`;
+                fill.style.background = '#ff3366'; // Red
+            } else if (ratio < 2.2) {
+                evaluation.innerText = `您的六角杠硬拉极限系数为 ${ratio.toFixed(2)}。您的力量处于中等水平，但距离精英运动员的门槛（2.2x 自重）仍有差距。您的起跳底盘依然不够结实，第一和第二阶段应该继续重视 progressive overload，努力突破 2.2x 自重。`;
+                fill.style.background = '#ffb300'; // Amber
+            } else if (ratio <= 2.6) {
+                evaluation.innerText = `您的六角杠硬拉极限系数为 ${ratio.toFixed(2)}，恭喜！您已迈入精英垂直弹跳的力量指标区间 (2.2x - 2.6x)。这表明您的肌肉发动机非常庞大。您在阶段三和阶段四的“神经速度转化”与“超等长刚度激活”将爆发惊人成效！`;
+                fill.style.background = '#00f2fe'; // Electric Blue
+            } else {
+                evaluation.innerText = `您的六角杠硬拉极限系数为 ${ratio.toFixed(2)}。您的绝对力量极其强悍！力量已经不再是您的限制因素。相反，多余的绝对力量过度积攒可能让您动作迟钝。请将精力 100% 倾斜于发力率（RFD）、超低空极速脚踝刚度（Pogos）与超低触地时间！`;
+                fill.style.background = 'linear-gradient(90deg, #00f2fe, #4facfe)';
+            }
+        }
+
+        // --- Tab 4: Logs & Tracker Logic ---
+        let userLogs = [
+            { id: 1, name: "开始基准线 (Week 0)", weight: 75, tbd: 140, broad: 245, standVert: 68, approachVert: 75, date: "2026-06-01" },
+            { id: 2, name: "阶段一结束 (Week 5)", weight: 75.5, tbd: 155, broad: 255, standVert: 72, approachVert: 81, date: "" },
+            { id: 3, name: "阶段二结束 (Week 9)", weight: 74.8, tbd: 165, broad: 260, standVert: 75, approachVert: 85, date: "" },
+            { id: 4, name: "终极测试日 (Week 16)", weight: 74.5, tbd: 172, broad: 270, standVert: 81, approachVert: 92, date: "" }
+        ];
+
+        function initProgressLogs() {
+            // Load from localStorage if exists
+            const stored = localStorage.getItem('eva_user_logs');
+            if (stored) {
+                try {
+                    userLogs = JSON.parse(stored);
+                } catch (e) {
+                    console.error("Local storage error:", e);
+                }
+            } else {
+                saveLogs();
+            }
+            
+            renderLogsTable();
+            renderCharts();
+        }
+
+        function saveLogs() {
+            localStorage.setItem('eva_user_logs', JSON.stringify(userLogs));
+        }
+
+        function renderLogsTable() {
+            const tbody = document.getElementById('logs-table-body');
+            tbody.innerHTML = '';
+            
+            userLogs.forEach((log, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: 700;">${log.name}</td>
+                    <td><input type="number" value="${log.weight}" step="0.1" onchange="updateLogVal(${idx}, 'weight', this.value)"></td>
+                    <td><input type="number" value="${log.tbd}" onchange="updateLogVal(${idx}, 'tbd', this.value)"></td>
+                    <td><input type="number" value="${log.broad}" onchange="updateLogVal(${idx}, 'broad', this.value)"></td>
+                    <td><input type="number" value="${log.standVert}" onchange="updateLogVal(${idx}, 'standVert', this.value)"></td>
+                    <td><input type="number" value="${log.approachVert}" onchange="updateLogVal(${idx}, 'approachVert', this.value)"></td>
+                    <td><input type="number" value="${log.approachVert - 5}" disabled style="background: rgba(255,255,255,0.02); border-color: transparent;"></td>
+                    <td>
+                        <button class="btn" style="padding: 6px 12px; font-size: 11px;" onclick="calculateRowStrength(${idx})">校准</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateLogVal(idx, key, val) {
+            userLogs[idx][key] = parseFloat(val);
+            saveLogs();
+            renderCharts();
+        }
+
+        function calculateRowStrength(idx) {
+            const log = userLogs[idx];
+            document.getElementById('calc-weight').value = log.weight;
+            document.getElementById('calc-tbd').value = log.tbd;
+            
+            // Switch tab to calculator
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                if (b.dataset.target === 'panel-calc') {
+                    b.click();
+                }
+            });
+            calculateStrength();
+        }
+
+        function renderCharts() {
+            const chartContainer = document.getElementById('chart-container');
+            chartContainer.innerHTML = '';
+            
+            // Determine max standVert to compute height ratio
+            let maxVert = 0;
+            userLogs.forEach(log => {
+                if (log.standVert > maxVert) maxVert = log.standVert;
+            });
+            
+            userLogs.forEach(log => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'chart-bar-wrapper';
+                
+                // Height proportion
+                const heightPercentage = maxVert > 0 ? (log.standVert / maxVert) * 90 : 0;
+                
+                const fill = document.createElement('div');
+                fill.className = 'chart-bar-fill';
+                fill.style.height = `${heightPercentage}%`;
+                
+                // Show jump height in CM as numerical text inside/above bar
+                fill.innerHTML = `<span style="font-size:11px; font-weight:700; color:var(--bg-color); display:block; text-align:center; padding-top:6px;">${log.standVert}</span>`;
+                
+                const label = document.createElement('span');
+                label.className = 'chart-bar-lbl';
+                label.innerText = log.name.split(' ')[0]; // Show beginning word (eg. "开始" or "阶段一")
+                
+                wrapper.appendChild(fill);
+                wrapper.appendChild(label);
+                chartContainer.appendChild(wrapper);
+            });
+        }
+
+        // Initial Boot
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            loadWorkout();
+            updateTempoPreset();
+        });
+    </script>
+</body>
+</html>
